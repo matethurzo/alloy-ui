@@ -70,6 +70,7 @@ var Lang = A.Lang,
 	RADIUS = 'radius',
 	RECORDS = 'records',
 	RECORDSET = 'recordset',
+	REGION = 'region',
 	RENDERED = 'rendered',
 	REQUIRED = 'required',
 	SELECTED = 'selected',
@@ -1229,6 +1230,7 @@ var DiagramNode = A.Component.create({
 		connectStart: function(event) {
 			var instance = this;
 			var builder = instance.get(BUILDER);
+			var canvas = builder.get(CANVAS);
 
 			builder.connector.show().set(P1, event.startXY);
 
@@ -1511,8 +1513,9 @@ var DiagramNode = A.Component.create({
 
 		_onBoundaryDrag: function(event) {
 			var instance = this;
+			var dd = instance.boundaryDragDelegate.dd;
 
-			instance._handleConnectMove(instance.boundaryDragDelegate.dd.mouseXY);
+			instance._handleConnectMove(dd.con._checkRegion(dd.mouseXY));
 		},
 
 		_onBoundaryDragEnd: function(event) {
