@@ -3,6 +3,8 @@ var Lang = A.Lang,
 
 	IFRAME = 'iframe',
 
+	EV_DRAG = 'drag:drag',
+
 	CSS_IFRAME_BD = getClassName('dialog', IFRAME, 'bd'),
 	CSS_IFRAME_NODE = getClassName('dialog', IFRAME, 'node'),
 	CSS_IFRAME_ROOT_NODE = getClassName('dialog', IFRAME, 'root', 'node'),
@@ -126,6 +128,8 @@ var DialogIframePlugin = A.Component.create(
 
 				instance.afterHostEvent('visibleChange', instance._afterDialogVisibleChange);
 
+				instance.afterHostEvent(EV_DRAG, instance._handleDragEvent);
+
 				instance.after('uriChange', instance._afterUriChange);
 
 				var bindLoadHandler = instance.get('bindLoadHandler');
@@ -162,6 +166,26 @@ var DialogIframePlugin = A.Component.create(
 				instance._bodyNode.loadingmask.hide();
 
 				instance._host._syncUIPosAlign();
+			},
+
+			_handleDragEvent: function(event) {
+				var instance = this;
+
+				if (event.pageX < 0){
+					var parent = instance.node.ancestor('.yui3-dd-dragging');
+
+					if (parent){
+						parent.setStyle('left', 0);
+					}
+				}
+
+				if (event.pageY < 0){
+					var parent = instance.node.ancestor('.yui3-dd-dragging');
+
+					if (parent){
+						parent.setStyle('top', 0);
+					}
+				}
 			},
 
 			_plugIframe: function() {
