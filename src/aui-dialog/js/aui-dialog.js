@@ -50,6 +50,7 @@ var Lang = A.Lang,
 	VIEWPORT_REGION = 'viewportRegion',
 	WIDTH = 'width',
 
+	EV_DRAG = 'drag:drag',
 	EV_RESIZE = 'resize:resize',
 	EV_RESIZE_END = 'resize:end',
 
@@ -399,6 +400,8 @@ Dialog.prototype = {
 		);
 
 		instance.addTarget(A.DialogManager);
+
+		instance.after(EV_DRAG, instance._handleDraggingEvent);
 
 		instance.after('constrain2viewChange', instance._afterConstrain2viewChange);
 		instance.after('draggableChange', instance._afterDraggableChange);
@@ -782,6 +785,26 @@ Dialog.prototype = {
 
 		if (event.prevVal) {
 			event.prevVal.destroy();
+		}
+	},
+
+	_handleDragEvent: function(event) {
+		var instance = this;
+
+		if (event.pageX < 0) {
+			var parent = instance.node.ancestor('.yui3-dd-dragging');
+
+			if (parent) {
+				parent.setX(0);
+			}
+		}
+
+		if (event.pageY < 0) {
+			var parent = instance.node.ancestor('.yui3-dd-dragging');
+
+			if (parent) {
+				parent.setY(0);
+			}
 		}
 	}
 };
