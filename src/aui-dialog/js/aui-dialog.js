@@ -759,6 +759,13 @@ Dialog.prototype = {
 		}
 	},
 
+	/**
+	 * Prevents the dialog to be moved to an unreachable location.
+	 *
+	 * @method _handleDragEvent
+	 * @param {EventFacade} event
+	 * @protected
+	 */
 	_handleDragEvent: function(event) {
 		var instance = this;
 	
